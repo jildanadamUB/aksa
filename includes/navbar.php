@@ -12,6 +12,7 @@
                 <li class="nav-item"><a class="nav-link" href="/aksa/learn/">AksaLearn</a></li>
                 <li class="nav-item"><a class="nav-link" href="/aksa/work/">AksaWork</a></li>
                 <li class="nav-item"><a class="nav-link" href="/aksa/profile.php">Akun</a></li>
+                <li class="nav-item"><a class="nav-link text-danger" href="/aksa/auth/logout.php">Keluar</a></li>
             </ul>
         </div>
     </div>

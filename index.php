@@ -1,6 +1,8 @@
 <?php
+require 'config/init.php';
+require 'includes/auth.php';
 $judul = "Home";
-$nama = "Stevan";
+$nama = $_SESSION['nama'];
 $courses = [
     ['judul' => 'UI/UX Design',  'kategori' => 'Desain & Kreatif', 'rating' => 5.0, 'video' => 5, 'bacaan' => 3],
     ['judul' => 'Desain Grafis', 'kategori' => 'Desain & Kreatif', 'rating' => 4.7, 'video' => 6, 'bacaan' => 2],
@@ -16,7 +18,7 @@ include 'includes/navbar.php';
 ?>
 
 <main class="container py-4">
-    <h1 class="h4">Hello, <span class="fw-bold"><?= $nama ?></span></h1>
+    <h1 class="h4">Hello, <span class="fw-bold"><?= htmlspecialchars($nama) ?></span></h1>
     <p class="text-muted">Raih masa depan yang lebih baik!</p>
     <!-- Banner -->
     <section class="banner-aksa rounded-4 p-4 mb-4 text-white">
