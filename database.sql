@@ -42,3 +42,5 @@ INSERT INTO jobs (posisi, perusahaan, kota, tipe, gaji, deskripsi, kualifikasi) 
 ('Digital Marketing', 'Tokopedia', 'Jakarta', 'Fulltime', 20000000, 'Merencanakan dan menjalankan kampanye pemasaran digital.', 'Menguasai SEO dan iklan digital\nPengalaman 3 tahun'),
 ('Web Developer', 'Ruangguru', 'Jakarta', 'Remote', 9000000, 'Membangun dan memelihara aplikasi web.', 'Menguasai PHP dan MySQL\nMemahami HTML, CSS, JavaScript'),
 ('Content Writer', 'Kompas', 'Yogyakarta', 'Magang', 2500000, 'Menulis artikel dan konten media sosial.', 'Mampu menulis dengan baik\nMemahami SEO dasar');
+
+ALTER TABLE jobs ADD jumlah_pelamar INT NOT NULL DEFAULT 0;

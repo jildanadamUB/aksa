@@ -28,12 +28,18 @@ include '../includes/navbar.php';
     <div class="col-12 col-lg-8 mx-auto">
         <a href="index.php" class="text-decoration-none">&larr; Kembali</a>
 
+        <?php if (isset($_SESSION['pesan'])) : ?>
+            <div class="alert alert-info mt-3 mb-0"><?= e($_SESSION['pesan']) ?></div>
+            <?php unset($_SESSION['pesan']); ?>
+        <?php endif; ?>
+
         <div class="card border-0 shadow-sm mt-3 mb-3">
             <div class="card-body">
                 <span class="badge badge-aksa mb-2"><?= e($job['tipe']) ?></span>
                 <h1 class="h3 fw-bold"><?= e($job['posisi']) ?></h1>
                 <p class="text-muted mb-2"><?= e($job['perusahaan']) ?> • <?= e($job['kota']) ?></p>
-                <p class="text-success fw-bold mb-0"><?= formatRupiah($job['gaji']) ?>/bulan</p>
+                <p class="text-success fw-bold mb-1"><?= formatRupiah($job['gaji']) ?>/bulan</p>
+                <p class="small text-muted mb-0"><?= (int) $job['jumlah_pelamar'] ?> pelamar</p>
             </div>
         </div>
 
@@ -55,7 +61,10 @@ include '../includes/navbar.php';
             </div>
         </div>
 
-        <button type="button" class="btn btn-aksa w-100">Lamar Sekarang</button>
+        <form method="POST" action="lamar.php">
+            <input type="hidden" name="job_id" value="<?= (int) $job['id'] ?>">
+            <button type="submit" class="btn btn-aksa w-100">Lamar Sekarang</button>
+        </form>
     </div>
 </main>
 
