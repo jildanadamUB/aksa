@@ -6,6 +6,8 @@ $judul = "Dashboard Admin";
 $admin = new App\Admin($db);
 $jobModel = new App\Job($db);
 $jobs     = $jobModel->all();
+$fileLog   = __DIR__ . '/../logs/error.log';
+$errorLogs = file_exists($fileLog) ? array_slice(file($fileLog), -5) : [];
 
 include '../includes/header.php';
 include '../includes/navbar.php';
@@ -16,6 +18,17 @@ include '../includes/navbar.php';
     <?php if (isset($_SESSION['pesan'])) : ?>
         <div class="alert alert-info"><?= e($_SESSION['pesan']) ?></div>
         <?php unset($_SESSION['pesan']); ?>
+    <?php endif; ?>
+
+    <?php if (!empty($errorLogs)) : ?>
+        <div class="alert alert-warning">
+            <strong>⚠ Error terbaru</strong>
+            <ul class="mb-0 mt-2 small">
+                <?php foreach ($errorLogs as $baris) : ?>
+                    <li><?= e($baris) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     <?php endif; ?>
 
     <div class="row g-3 mb-4">

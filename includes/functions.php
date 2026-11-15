@@ -37,3 +37,20 @@ function warnaStatus(string $status): string
         default    => 'bg-secondary',
     };
 }
+
+/**
+ * Mencatat pesan error ke file logs/error.log beserta waktunya.
+ * Ini PROSEDUR: melakukan sesuatu, tidak mengembalikan nilai (void).
+ *
+ * @param string $pesan  isi pesan error
+ * @return void
+ */
+function catatError(string $pesan): void
+{
+    $folder = __DIR__ . '/../logs';
+    if (!is_dir($folder)) {
+        mkdir($folder, 0755, true);
+    }
+    $baris = '[' . date('Y-m-d H:i:s') . '] ' . $pesan . PHP_EOL;
+    file_put_contents($folder . '/error.log', $baris, FILE_APPEND);
+}

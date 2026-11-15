@@ -15,7 +15,7 @@ class Database
         try {
             $this->conn = new \mysqli($this->host, $this->user, $this->pass, $this->dbName);
         } catch (\mysqli_sql_exception $e) {
-            die("Koneksi database gagal: " . $e->getMessage());
+            throw new \RuntimeException("Koneksi database gagal: " . $e->getMessage());
         }
     }
 
