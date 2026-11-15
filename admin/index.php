@@ -9,6 +9,20 @@ $jobs     = $jobModel->all();
 $fileLog   = __DIR__ . '/../logs/error.log';
 $errorLogs = file_exists($fileLog) ? array_slice(file($fileLog), -5) : [];
 
+// Monitoring penyimpanan CV
+const KUOTA_UPLOAD = 100 * 1024 * 1024;   // batas atas: 100 MB
+
+$folderCv    = __DIR__ . '/../uploads/cv';
+$pakaiUpload = ukuranFolder($folderCv);
+$jumlahCv    = is_dir($folderCv) ? count(glob($folderCv . '/*')) : 0;
+$persen      = min(100, round($pakaiUpload / KUOTA_UPLOAD * 100, 1));
+
+$warnaBar = match (true) {
+    $persen >= 80 => 'bg-danger',
+    $persen >= 50 => 'bg-warning',
+    default       => 'bg-success',
+};
+
 include '../includes/header.php';
 include '../includes/navbar.php';
 ?>
@@ -42,6 +56,24 @@ include '../includes/navbar.php';
             <div class="card border-0 shadow-sm p-3">
                 <div class="small text-muted">Lowongan</div>
                 <div class="h4 fw-bold mb-0"><?= count($jobs) ?></div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-3">
+                <div class="small text-muted">Lamaran</div>
+                <div class="h4 fw-bold mb-0"><?= $admin->countApplications() ?></div>
+            </div>
+        </div>
+        <div class="card border-0 shadow-sm p-3 mb-4">
+            <div class="d-flex justify-content-between mb-2">
+                <span class="fw-bold">Penyimpanan CV</span>
+                <span class="small text-muted"><?= $jumlahCv ?> file</span>
+            </div>
+            <div class="progress" style="height: 12px;">
+                <div class="progress-bar <?= $warnaBar ?>" style="width: <?= $persen ?>%"></div>
+            </div>
+            <div class="small text-muted mt-2">
+                <?= formatUkuran($pakaiUpload) ?> dari <?= formatUkuran(KUOTA_UPLOAD) ?> (<?= $persen ?>%)
             </div>
         </div>
     </div>

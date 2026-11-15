@@ -54,3 +54,41 @@ function catatError(string $pesan): void
     $baris = '[' . date('Y-m-d H:i:s') . '] ' . $pesan . PHP_EOL;
     file_put_contents($folder . '/error.log', $baris, FILE_APPEND);
 }
+
+/**
+ * Menghitung total ukuran semua file di dalam sebuah folder.
+ *
+ * @param string $folder  lokasi folder
+ * @return int            total ukuran dalam byte
+ */
+function ukuranFolder(string $folder): int
+{
+    if (!is_dir($folder)) {
+        return 0;
+    }
+    $total = 0;
+    foreach (glob($folder . '/*') as $file) {
+        if (is_file($file)) {
+            $total += filesize($file);
+        }
+    }
+    return $total;
+}
+
+/**
+ * Mengubah ukuran byte menjadi teks yang mudah dibaca.
+ * Contoh: 2500000 menjadi "2,38 MB"
+ *
+ * @param int $byte  ukuran dalam byte
+ * @return string    ukuran dalam B, KB, atau MB
+ */
+function formatUkuran(int $byte): string
+{
+    if ($byte >= 1048576) {
+        return number_format($byte / 1048576, 2, ',', '.') . ' MB';
+    }
+    if ($byte >= 1024) {
+        return number_format($byte / 1024, 1, ',', '.') . ' KB';
+    }
+    return $byte . ' B';
+}

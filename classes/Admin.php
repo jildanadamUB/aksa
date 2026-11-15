@@ -16,4 +16,10 @@ class Admin extends User
         $result = $this->conn->query("SELECT COUNT(*) AS total FROM users");
         return (int) $result->fetch_assoc()['total'];
     }
+
+    public function countApplications(): int
+    {
+        $result = $this->conn->query("SELECT COUNT(*) AS total FROM applications");
+        return (int) $result->fetch_assoc()['total'];
+    }
 }
