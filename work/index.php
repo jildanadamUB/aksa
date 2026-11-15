@@ -13,7 +13,11 @@ include '../includes/navbar.php';
 ?>
 
 <main class="container py-4">
-    <h1 class="h4 fw-bold">AksaWork</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h4 fw-bold mb-0">AksaWork</h1>
+        <a href="riwayat.php" class="btn btn-outline-secondary btn-sm">Riwayat Lamaran</a>
+    </div>
+
     <p class="text-muted">Temukan pekerjaan impianmu.</p>
 
     <form method="GET" class="row g-2 mb-4">

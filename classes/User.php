@@ -44,6 +44,24 @@ class User
         }
         return null;
     }
+
+    // Ambil data satu user berdasarkan id (tanpa password)
+    public function findById(int $id): ?array
+    {
+        $stmt = $this->conn->prepare("SELECT id, nama, email, role, created_at FROM users WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    // Ubah nama user
+    public function updateNama(int $id, string $nama): bool
+    {
+        $stmt = $this->conn->prepare("UPDATE users SET nama = ? WHERE id = ?");
+        $stmt->bind_param("si", $nama, $id);
+        return $stmt->execute();
+    }
+    
     // Halaman tujuan setelah login (di-override oleh class Admin)
     public function dashboardUrl(): string
     {

@@ -21,3 +21,19 @@ function e(?string $teks): string
 {
     return htmlspecialchars($teks ?? '');
 }
+
+/**
+ * Menentukan class warna badge Bootstrap sesuai status lamaran.
+ *
+ * @param string $status  status lamaran (Terkirim/Ditinjau/Diterima/Ditolak)
+ * @return string         class Bootstrap untuk badge
+ */
+function warnaStatus(string $status): string
+{
+    return match ($status) {
+        'Diterima' => 'bg-success',
+        'Ditolak'  => 'bg-danger',
+        'Ditinjau' => 'bg-warning text-dark',
+        default    => 'bg-secondary',
+    };
+}

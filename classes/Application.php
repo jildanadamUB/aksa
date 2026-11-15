@@ -42,4 +42,31 @@ class Application
             return false;
         }
     }
+
+    // Ambil riwayat lamaran seorang user lewat STORED PROCEDURE
+    public function history(int $userId): array
+    {
+        $stmt = $this->conn->prepare("CALL sp_riwayat_lamaran(?)");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $data = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        // CALL selalu mengirim hasil tambahan (status eksekusi). Hasil itu harus dihabiskan,
+        // kalau tidak query berikutnya error "Commands out of sync".
+        while ($stmt->more_results()) {
+            $stmt->next_result();
+        }
+        $stmt->close();
+
+        return $data;
+    }
+
+    // Hitung jumlah lamaran seorang user lewat FUNCTION SQL
+    public function countByUser(int $userId): int
+    {
+        $stmt = $this->conn->prepare("SELECT fn_jumlah_lamaran(?) AS total");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        return (int) $stmt->get_result()->fetch_assoc()['total'];
+    }
 }
