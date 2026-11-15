@@ -20,7 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['nama']    = $data['nama'];
         $_SESSION['role']    = $data['role'];
 
-        header('Location: ../index.php');
+        // Polymorphism: object dipilih sesuai role, lalu method yang SAMA dipanggil
+        $akun = ($data['role'] === 'admin') ? new App\Admin($db) : new App\User($db);
+        header('Location: ' . $akun->dashboardUrl());
         exit;
     } else {
         $error = "Email atau password salah.";

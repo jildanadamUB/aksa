@@ -44,4 +44,9 @@ class User
         }
         return null;
     }
+    // Halaman tujuan setelah login (di-override oleh class Admin)
+    public function dashboardUrl(): string
+    {
+        return '/aksa/index.php';
+    }
 }
