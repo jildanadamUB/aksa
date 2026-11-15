@@ -31,6 +31,9 @@ include '../includes/navbar.php';
                             <p class="small text-muted mb-1"><?= e($r['perusahaan']) ?> • <?= e($r['kota']) ?></p>
                             <p class="small text-muted mb-2">Dilamar <?= date('d M Y', strtotime($r['created_at'])) ?></p>
                             <a href="detail.php?id=<?= (int) $r['job_id'] ?>" class="small">Lihat lowongan</a>
+                            <?php if ($r['cv']) : ?>
+                                <a href="/aksa/uploads/cv/<?= e($r['cv']) ?>" class="small ms-2" target="_blank">Lihat CV</a>
+                            <?php endif; ?>
                         </div>
                         <span class="badge <?= warnaStatus($r['status']) ?>"><?= e($r['status']) ?></span>
                     </div>

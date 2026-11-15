@@ -14,10 +14,17 @@ $appModel = new App\Application($db);
 
 if ($appModel->hasApplied($userId, $jobId)) {
     $_SESSION['pesan'] = "Kamu sudah melamar lowongan ini.";
-} elseif ($appModel->apply($userId, $jobId)) {
-    $_SESSION['pesan'] = "Berhasil! Lamaranmu sedang ditinjau oleh tim perekrut.";
 } else {
-    $_SESSION['pesan'] = "Lamaran gagal dikirim. Silakan coba lagi.";
+    $uploader = new App\CvUploader();
+    $cv = $uploader->upload($_FILES['cv'] ?? ['error' => UPLOAD_ERR_NO_FILE], $userId);
+
+    if ($cv === null) {
+        $_SESSION['pesan'] = $uploader->getError();
+    } elseif ($appModel->apply($userId, $jobId, $cv)) {
+        $_SESSION['pesan'] = "Berhasil! Lamaranmu sedang ditinjau oleh tim perekrut.";
+    } else {
+        $_SESSION['pesan'] = "Lamaran gagal dikirim. Silakan coba lagi.";
+    }
 }
 
 header('Location: detail.php?id=' . $jobId);

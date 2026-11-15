@@ -61,8 +61,12 @@ include '../includes/navbar.php';
             </div>
         </div>
 
-        <form method="POST" action="lamar.php">
+        <form method="POST" action="lamar.php" enctype="multipart/form-data" class="mb-4">
             <input type="hidden" name="job_id" value="<?= (int) $job['id'] ?>">
+            <div class="mb-3">
+                <label for="cv" class="form-label">Upload CV (PDF, PNG, JPG)</label>
+                <input class="form-control" type="file" id="cv" name="cv" accept=".pdf,.png,.jpg,.jpeg" required>
+            </div>
             <button type="submit" class="btn btn-aksa w-100">Lamar Sekarang</button>
         </form>
     </div>
