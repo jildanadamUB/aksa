@@ -13,3 +13,7 @@
 ## [0.3.0] - 2026-11-14
 ### Ditambahkan
 - register dan login dengan class User
+
+## [0.3.0] - 2026-11-14
+### Ditambahkan
+- Tambah logout, proteksi halaman (auth guard), nama user dari session
