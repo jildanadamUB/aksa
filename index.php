@@ -60,8 +60,7 @@ include 'includes/navbar.php';
                     <span class="badge badge-aksa align-self-start mb-2"><?= $c['kategori'] ?></span>
                     <h3 class="h6 fw-bold mb-1"><?= $c['judul'] ?></h3>
                     <p class="small text-muted mb-0">
-                        <i class="bi bi-star-fill text-warning"></i> <?= number_format($c['rating'], 1) ?>
-                        • <?= $c['video'] ?> Video • <?= $c['bacaan'] ?> Bacaan
+                        <i class="bi bi-star-fill text-warning"></i> <?= number_format($c['rating'], 1) ?> • <?= $c['video'] ?> Video • <?= $c['bacaan'] ?> Bacaan
                     </p>
                 </div>
             </div>

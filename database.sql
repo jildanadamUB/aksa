@@ -80,3 +80,25 @@ BEGIN
     WHERE id = OLD.job_id;
 END $$
 DELIMITER ;
+
+CREATE TABLE courses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    judul VARCHAR(100) NOT NULL,
+    kategori VARCHAR(50) NOT NULL,
+    deskripsi TEXT,
+    rating DECIMAL(2,1) NOT NULL DEFAULT 0,
+    jumlah_video INT NOT NULL DEFAULT 0,
+    jumlah_bacaan INT NOT NULL DEFAULT 0,
+    video VARCHAR(255),
+    INDEX idx_kategori (kategori)
+);
+
+INSERT INTO courses (judul, kategori, deskripsi, rating, jumlah_video, jumlah_bacaan, video) VALUES
+('UI/UX Design', 'Desain & Kreatif', 'Pelajari dasar riset pengguna, wireframe, hingga prototipe interaktif.', 5.0, 5, 3, 'intro-uiux.mp4'),
+('Desain Grafis', 'Desain & Kreatif', 'Prinsip desain visual, tipografi, dan komposisi warna.', 4.7, 6, 2, NULL),
+('Editor Video', 'Desain & Kreatif', 'Teknik dasar memotong, menyusun, dan memberi efek pada video.', 4.5, 8, 1, NULL),
+('Ilustrator Digital', 'Desain & Kreatif', 'Menggambar ilustrasi digital dari sketsa hingga final.', 4.6, 5, 2, NULL),
+('Digital Marketing', 'Pemasaran Digital', 'Strategi pemasaran online, media sosial, dan iklan digital.', 4.8, 6, 2, NULL),
+('Content Writer SEO', 'Penulisan & Konten', 'Menulis konten yang menarik dan mudah ditemukan mesin pencari.', 4.6, 4, 4, NULL),
+('Administrasi Digital', 'Bisnis & Administrasi', 'Mengelola dokumen dan data kantor dengan alat digital.', 4.5, 5, 3, NULL),
+('QA Software Tester', 'Teknologi & Web', 'Dasar pengujian perangkat lunak dan menulis skenario uji.', 4.7, 6, 3, NULL);
