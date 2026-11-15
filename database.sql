@@ -44,3 +44,39 @@ INSERT INTO jobs (posisi, perusahaan, kota, tipe, gaji, deskripsi, kualifikasi) 
 ('Content Writer', 'Kompas', 'Yogyakarta', 'Magang', 2500000, 'Menulis artikel dan konten media sosial.', 'Mampu menulis dengan baik\nMemahami SEO dasar');
 
 ALTER TABLE jobs ADD jumlah_pelamar INT NOT NULL DEFAULT 0;
+
+CREATE VIEW v_riwayat_lamaran AS
+SELECT a.id, a.user_id, u.nama, j.id AS job_id, j.posisi, j.perusahaan, j.kota,
+       a.status, a.cv, a.created_at
+FROM applications a
+JOIN users u ON a.user_id = u.id
+JOIN jobs  j ON a.job_id  = j.id;
+
+DELIMITER $$
+CREATE FUNCTION fn_jumlah_lamaran(p_user_id INT) RETURNS INT
+READS SQL DATA
+BEGIN
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM applications WHERE user_id = p_user_id;
+    RETURN total;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE sp_riwayat_lamaran(IN p_user_id INT)
+BEGIN
+    SELECT * FROM v_riwayat_lamaran
+    WHERE user_id = p_user_id
+    ORDER BY created_at DESC;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER trg_kurangi_pelamar
+AFTER DELETE ON applications
+FOR EACH ROW
+BEGIN
+    UPDATE jobs SET jumlah_pelamar = jumlah_pelamar - 1
+    WHERE id = OLD.job_id;
+END $$
+DELIMITER ;
