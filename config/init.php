@@ -11,3 +11,6 @@ spl_autoload_register(function ($class) {
 
 // Satu object Database dipakai bersama oleh semua halaman
 $db = new App\Database();
+
+// Fungsi-fungsi bantu (formatRupiah, e)
+require __DIR__ . '/../includes/functions.php';

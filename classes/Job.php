@@ -17,6 +17,29 @@ class Job implements CrudInterface
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    // Cari lowongan berdasarkan kata kunci, lalu urutkan sesuai pilihan.
+    // Parameter default membuat method ini bisa dipanggil dengan 0, 1, atau 2 argumen.
+    public function search(string $keyword = '', string $urut = 'terbaru'): array
+    {
+        // Whitelist: ORDER BY tidak bisa memakai "?", jadi pilihannya dibatasi di sini
+        $daftarUrut = [
+            'terbaru'     => 'created_at DESC',
+            'gaji_tinggi' => 'gaji DESC',
+            'gaji_rendah' => 'gaji ASC',
+        ];
+        $orderBy = $daftarUrut[$urut] ?? $daftarUrut['terbaru'];
+
+        $like = '%' . $keyword . '%';
+        $stmt = $this->conn->prepare(
+            "SELECT * FROM jobs
+            WHERE posisi LIKE ? OR perusahaan LIKE ? OR kota LIKE ?
+            ORDER BY $orderBy"
+        );
+        $stmt->bind_param("sss", $like, $like, $like);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
     // Ambil satu lowongan berdasarkan id
     public function find(int $id): ?array
     {
