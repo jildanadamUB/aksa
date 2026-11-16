@@ -10,7 +10,9 @@ class Job implements CrudInterface
         $this->conn = $db->getConnection();
     }
 
-    // Ambil semua lowongan, yang terbaru di atas
+    // Ambil semua lowongan, yang terbaru di atas.
+    // Pengecualian guideline: memakai query() biasa (bukan prepared statement)
+    // karena query ini tidak memuat input dari pengguna, jadi tidak ada risiko SQL Injection.
     public function all(): array
     {
         $result = $this->conn->query("SELECT * FROM jobs ORDER BY created_at DESC");
@@ -79,7 +81,7 @@ class Job implements CrudInterface
         return $stmt->execute();
     }
 
-    // Hapus lowongan: BUAT SENDIRI
+    // Hapus lowongan berdasarkan id
     public function delete(int $id): bool
     {
         $stmt = $this->conn->prepare("DELETE FROM jobs WHERE id = ?");
