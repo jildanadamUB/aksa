@@ -2,6 +2,12 @@
 
 Semua perubahan penting pada project Aksa. Versi terbaru di paling atas. Penomoran versi mengikuti format MAYOR.MINOR.PATCH.
 
+## [1.1.0] - 2026-11-17
+### Ditambahkan
+- API JSON `api/lowongan.php` (GET): daftar lowongan, pencarian, pengurutan, detail berdasarkan id
+- Kode status HTTP 200, 404, 405, 500 dan penangan error khusus API yang menjawab dengan JSON
+- Bagian API di README
+
 ## [1.0.0] - 2026-11-17
 ### Diubah
 - Home mengambil 3 kursus dengan rating tertinggi dan 3 lowongan terbaru dari basis data (sebelumnya data contoh berupa array)
