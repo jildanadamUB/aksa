@@ -27,6 +27,7 @@ Tampilannya diimplementasikan dari desain UI/UX "Aksa" yang meraih **Juara 1 UI/
 ```
 aksa/
 ├── admin/        Dashboard dan kelola lowongan (khusus admin)
+├── api/          API JSON data lowongan
 ├── assets/       CSS dan video
 ├── auth/         Login, register, logout
 ├── classes/      Class PHP: Database, User, Admin, Job, Application, CvUploader, Course, CrudInterface
@@ -66,6 +67,37 @@ Proses melamar memakai transaksi (`commit` dan `rollback`).
 7. (Opsional) Simpan video MP4 di `assets/video/intro-uiux.mp4` agar video kursus UI/UX Design bisa diputar. File video tidak disertakan di repository karena ukurannya besar.
 
 Folder `uploads/` (file CV) dan `logs/` (catatan error) dibuat otomatis saat pertama kali dibutuhkan, dan tidak disimpan di repository.
+
+## API
+
+Data lowongan juga tersedia dalam format JSON di `api/lowongan.php` (hanya metode GET, tanpa login). API ini disiapkan agar aplikasi lain, misalnya versi aplikasi HP dari desain Aksa, bisa memakai data yang sama tanpa membuat backend baru.
+
+| Permintaan | Hasil |
+| --- | --- |
+| `GET /aksa/api/lowongan.php` | Semua lowongan, terbaru di atas |
+| `GET /aksa/api/lowongan.php?cari=jakarta&urut=gaji_tinggi` | Lowongan yang cocok dengan kata kunci, diurutkan (`terbaru`, `gaji_tinggi`, `gaji_rendah`) |
+| `GET /aksa/api/lowongan.php?id=3` | Satu lowongan |
+
+Contoh jawaban:
+
+```json
+{
+    "status": "ok",
+    "jumlah": 1,
+    "data": [
+        {
+            "id": 4,
+            "posisi": "Web Developer",
+            "perusahaan": "Ruangguru",
+            "kota": "Jakarta",
+            "tipe": "Remote",
+            "gaji": 9000000
+        }
+    ]
+}
+```
+
+Kode status: `200` berhasil, `404` lowongan tidak ditemukan, `405` metode selain GET, `500` kesalahan server (detail dicatat di log, tidak dikirim ke klien).
 
 ## Keamanan yang diterapkan
 
