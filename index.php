@@ -3,24 +3,19 @@ require 'config/init.php';
 require 'includes/auth.php';
 $judul = "Home";
 $nama = $_SESSION['nama'];
-$courses = [
-    ['judul' => 'UI/UX Design',  'kategori' => 'Desain & Kreatif', 'rating' => 5.0, 'video' => 5, 'bacaan' => 3],
-    ['judul' => 'Desain Grafis', 'kategori' => 'Desain & Kreatif', 'rating' => 4.7, 'video' => 6, 'bacaan' => 2],
-    ['judul' => 'Editor Video',  'kategori' => 'Desain & Kreatif', 'rating' => 4.5, 'video' => 8, 'bacaan' => 1],
-];
-$lowongan = [
-    ['posisi' => 'Product Designer',  'perusahaan' => 'Yahoo',     'kota' => 'Jakarta', 'tipe' => 'Fulltime', 'gaji' => '6 - 7.5 Juta'],
-    ['posisi' => 'IT Support',        'perusahaan' => 'Zenius',    'kota' => 'Bandung', 'tipe' => 'Parttime', 'gaji' => '4.5 Juta'],
-    ['posisi' => 'Digital Marketing', 'perusahaan' => 'Tokopedia', 'kota' => 'Jakarta', 'tipe' => 'Fulltime', 'gaji' => '20 Juta'],
-];
+
+$jobModel    = new App\Job($db);
+$courseModel = new App\Course($db);
+
+$lowongan = array_slice($jobModel->search('', 'terbaru'), 0, 3);   // 3 lowongan terbaru
+$courses  = array_slice($courseModel->search(), 0, 3);              // 3 kursus rating tertinggi
 include 'includes/header.php';
 include 'includes/navbar.php';
 ?>
 
 <main class="container py-4">
-    <h1 class="h4">Hello, <span class="fw-bold"><?= htmlspecialchars($nama) ?></span></h1>
+    <h1 class="h4">Hello, <span class="fw-bold"><?= e($nama) ?></span></h1>
     <p class="text-muted">Raih masa depan yang lebih baik!</p>
-    <!-- Banner -->
     <section class="banner-aksa rounded-4 p-4 mb-4 text-white">
         <div class="row align-items-center">
             <div class="col-8">
@@ -56,11 +51,14 @@ include 'includes/navbar.php';
         <div class="row g-3">
             <?php foreach ($courses as $c) : ?>
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100 p-3">
-                    <span class="badge badge-aksa align-self-start mb-2"><?= $c['kategori'] ?></span>
-                    <h3 class="h6 fw-bold mb-1"><?= $c['judul'] ?></h3>
+                <div class="card border-0 shadow-sm h-100 p-3 menu-cepat">
+                    <span class="badge badge-aksa align-self-start mb-2"><?= e($c['kategori']) ?></span>
+                    <h3 class="h6 fw-bold mb-1">
+                        <a href="/aksa/learn/detail.php?id=<?= (int) $c['id'] ?>"
+                        class="stretched-link text-reset text-decoration-none"><?= e($c['judul']) ?></a>
+                    </h3>
                     <p class="small text-muted mb-0">
-                        <i class="bi bi-star-fill text-warning"></i> <?= number_format($c['rating'], 1) ?> • <?= $c['video'] ?> Video • <?= $c['bacaan'] ?> Bacaan
+                        <i class="bi bi-star-fill text-warning"></i> <?= number_format($c['rating'], 1) ?> • <?= $c['jumlah_video'] ?> Video • <?= $c['jumlah_bacaan'] ?> Bacaan
                     </p>
                 </div>
             </div>
@@ -76,14 +74,17 @@ include 'includes/navbar.php';
         <div class="row g-3">
             <?php foreach ($lowongan as $l) : ?>
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card card-lowongan border-0 shadow-sm h-100 p-3">
+                <div class="card card-lowongan border-0 shadow-sm h-100 p-3 menu-cepat">
                     <div class="d-flex justify-content-between align-items-start mb-1">
-                        <h3 class="h6 fw-bold mb-0"><?= $l['posisi'] ?></h3>
+                        <h3 class="h6 fw-bold mb-1">
+                            <a href="/aksa/work/detail.php?id=<?= (int) $l['id'] ?>"
+                            class="stretched-link text-reset text-decoration-none"><?= e($l['posisi']) ?></a>
+                        </h3>
                         <i class="bi bi-bookmark"></i>
                     </div>
-                    <p class="small text-white-50 mb-2"><?= $l['perusahaan'] ?> • <?= $l['kota'] ?></p>
-                    <span class="badge bg-white text-dark align-self-start mb-2"><?= $l['tipe'] ?></span>
-                    <p class="fw-bold mb-0"><?= $l['gaji'] ?>/bulan</p>
+                    <p class="small text-white-50 mb-2"><?= e($l['perusahaan']) ?> • <?= e($l['kota']) ?></p>
+                    <span class="badge bg-white text-dark align-self-start mb-2"><?= e($l['tipe']) ?></span>
+                    <p class="fw-bold mb-0"><?= formatRupiah($l['gaji']) ?>/bulan</p>
                 </div>
             </div>
             <?php endforeach; ?>
